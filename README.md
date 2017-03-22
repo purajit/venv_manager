@@ -1,12 +1,14 @@
 # venv_manager: Manage your python virtual environments without any effort. Literally.
 
+![Look, a moving picture!](https://github.com/purajit/venv_manager/blob/master/demo.gif "Demo")
+
 Have multiple python virtual environments and find it annoying to manage them? Ever
 install PyPI packages into the wrong environment or otherwise make modifications you
 meant to make to some other environment? Then this plugin is for you!
 
 This plugin helps you create and change/activate/deactivate python virtual
 environments depending on your current path. It searches through each parent in the
-working directory for the folder `$VENV_DIR` (by default `\".venv\"`). If it exists,
+working directory for the folder `$VENV_DIR` (by default ".venv"). If it exists,
 it sources its activation script (after deactivating the current virtualenv, if there
 is one). If it doesn't, then it just deactivates the current environment if there is
 one, leaving you in a non-virtual environment.
