@@ -48,7 +48,7 @@ function activate_venv() {
 }
 
 function change_venv_if_needed() {
-    if [ x"$1" != "xignore_pwd" -a $_OLD_PWD = $(pwd) ]; then
+    if [ x"$1" != "xignore_pwd" -a "$_OLD_PWD" = "$(pwd)" ]; then
         if [ ! -d $VIRTUAL_ENV ]; then
             deactivate_venv
         fi
