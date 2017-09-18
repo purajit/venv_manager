@@ -18,7 +18,7 @@ function check_for_venv() {
         return
     fi
 
-    while True
+    while [ 1 ]
     do
         cur_dir=$(dirname $cur_dir)
 
