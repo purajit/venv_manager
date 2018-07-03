@@ -1,4 +1,4 @@
-## Plugin to create/change/activate/deactivate python virtual environment depending 
+## Plugin to create/change/activate/deactivate python virtual environment depending
 ## on the current path. Searches through each parent in PWD for the folder
 ## $VENV_DIR (by default \".venv\"). If it exists, it sources its activation
 ## script (after deactivating current virtualenv, if there is one). If it doesn't,
@@ -26,7 +26,7 @@ function check_for_venv() {
             echo $cur_dir/$VENV_DIR
             return
         fi
-        
+
         if [ $cur_dir = "/" ]; then
             return
         fi
@@ -56,7 +56,7 @@ function change_venv_if_needed() {
     fi
 
     _OLD_PWD=$(pwd)
-       
+
     new_venv=$(check_for_venv)
 
     if [ -z $VIRTUAL_ENV ]; then
@@ -74,7 +74,6 @@ function change_venv_if_needed() {
             activate_venv $new_venv after_deactivate
         fi
     fi
-
 }
 
 function create_venv() {
@@ -86,6 +85,7 @@ function create_venv() {
         change_venv_if_needed ignore_pwd
     else
         virtualenv $1/$VENV_DIR ${@:2}
+        change_venv_if_needed ignore_pwd
     fi
 }
 
