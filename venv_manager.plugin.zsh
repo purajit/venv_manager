@@ -5,6 +5,10 @@
 ## then it just deactivates the current environment if there is one, leaving you in
 ## a non-virtual environment.
 
+if [ -z $_AUTO_DEACTIVATE_VENV ]; then
+    export _AUTO_DEACTIVATE_VENV=1
+fi
+
 _OLD_PWD="/"
 if [ -z "$VENV_DIR" ]; then
     export VENV_DIR=".venv"
@@ -34,8 +38,10 @@ function check_for_venv() {
 }
 
 function deactivate_venv() {
-    echo Deactivating virtual environment in $(dirname $VIRTUAL_ENV) "..."
-    deactivate
+    if [[ $_AUTO_DEACTIVATE_VENV == 1 ]]; then
+        echo Deactivating virtual environment in $(dirname $VIRTUAL_ENV) "..."
+        deactivate
+    fi
 }
 
 function activate_venv() {
@@ -70,10 +76,15 @@ function change_venv_if_needed() {
             deactivate_venv
         # switching venv environments
         elif [ $new_venv != $VIRTUAL_ENV ]; then
+            # force auto-deactivation here
+            _TMP_AUTO_DEACTIVATE_VENV=$_AUTO_DEACTIVATE_VENV
+            _AUTO_DEACTIVATE_VENV=1
             deactivate_venv
             activate_venv $new_venv after_deactivate
+            _AUTO_DEACTIVATE_VENV=$_TMP_AUTO_DEACTIVATE_VENV
         fi
     fi
+
 }
 
 function create_venv() {
