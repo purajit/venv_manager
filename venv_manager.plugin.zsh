@@ -8,7 +8,7 @@ _OLD_PWD="/"
 function venv_manager_switch_venv() {
     if [ "$_OLD_PWD" = "$(pwd)" ]; then
         if [ ! -d "$VIRTUAL_ENV" ]; then
-            command -v deactivate &> /dev/null && deactivate_venv
+            command -v deactivate &> /dev/null && deactivate
         fi
         return
     fi
