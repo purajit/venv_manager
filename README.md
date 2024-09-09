@@ -26,6 +26,10 @@ precmd() {
   venv_manager_switch_venv
 }
 
+# or
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd venv_manager_switch_venv
+
 # bash
 export PROMPT_COMMAND=venv_manager_switch_venv
 ```
