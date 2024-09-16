@@ -1,14 +1,21 @@
 ## Plugin to create/change/activate/deactivate python virtual environment depending
 ## on the current path. Searches through each parent in PWD for the folder
 ## $VENV_DIR (by default ".venv"), and activates it appropriately.
+## If you are under $VENV_MANAGER_IGNORE_DIR, it does nothing
+## TODO: Allow multiple ignore dirs
 
 _OLD_PWD="/"
 : "${VENV_DIR:=.venv}"
+: "${VENV_MANAGER_IGNORE_DIR:=}"
 
 function venv_manager_switch_venv() {
+    if [[ -n "${VENV_MANAGER_IGNORE_DIR}" ]] && [[ "$(pwd)/" == "$VENV_MANAGER_IGNORE_DIR"* ]]; then
+        return
+    fi
+
     if [ "$_OLD_PWD" = "$(pwd)" ]; then
         if [ ! -d "$VIRTUAL_ENV" ]; then
-            command -v deactivate &> /dev/null && deactivate
+            command -v deactivate &>/dev/null && deactivate
         fi
         return
     fi
@@ -29,6 +36,6 @@ function venv_manager_switch_venv() {
     if [ -n "$new_venv" ]; then
         source "$new_venv/bin/activate"
     else
-        command -v deactivate &> /dev/null && deactivate
+        command -v deactivate &>/dev/null && deactivate
     fi
 }
