@@ -6,13 +6,8 @@
 
 _OLD_PWD="/"
 : "${VENV_DIR:=.venv}"
-: "${VENV_MANAGER_IGNORE_DIR:=}"
 
 function venv_manager_switch_venv() {
-    if [[ -n "${VENV_MANAGER_IGNORE_DIR}" ]] && [[ "$(pwd)/" == "$VENV_MANAGER_IGNORE_DIR"* ]]; then
-        return
-    fi
-
     if [ "$_OLD_PWD" = "$(pwd)" ]; then
         if [ ! -d "$VIRTUAL_ENV" ]; then
             command -v deactivate &>/dev/null && deactivate
@@ -33,7 +28,7 @@ function venv_manager_switch_venv() {
         cur_dir="$(dirname "$cur_dir")"
     done
 
-    if [ -n "$new_venv" ]; then
+    if [ -n "$new_venv" ] && [ ! -f "$new_venv/../.envrc" ]; then
         source "$new_venv/bin/activate"
     else
         command -v deactivate &>/dev/null && deactivate
